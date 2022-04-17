@@ -1,8 +1,7 @@
-//SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.0;
+//SPDX-License-Identifier: MIT
+pragma solidity 0.8.2;
 
 import "hardhat/console.sol";
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
@@ -13,7 +12,7 @@ import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeab
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 
-contract Auction {
+contract Auction is Initializable {
     // The address of cold wallet that will hold amount token
     address public coldWalletAddress;
 
@@ -29,7 +28,7 @@ contract Auction {
     Bidder[] bidders;
 
     // check auction ended
-    bool public isEnded = true;
+    bool public isEnded;
 
     struct Bidder {
         string name;
@@ -43,10 +42,13 @@ contract Auction {
     event Bid(string name, address account, uint256 amount);
     event EndAution(string name, address account, uint256 amount);
 
-    constructor(address appceptedToken) {
+    function initialize(address appceptedToken) public initializer {
         auctionAcceptedToken = address(appceptedToken);
         coldWalletAddress = 0xAA7740DB30dcE972a5F1eFD8970e2D37ADD75034;
+        isEnded = true;
     }
+
+    // constructor() initializer {}
 
     function startAuction(uint256 _timeAuction, uint256 startCost) external {
         require(isEnded, "The previous auction is not over yet!");

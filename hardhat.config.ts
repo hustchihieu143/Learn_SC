@@ -10,6 +10,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import { NetworkUserConfig } from "hardhat/types";
 import { join, resolve } from "path";
 import "solidity-coverage";
+import "@openzeppelin/hardhat-upgrades";
 require("hardhat-contract-sizer");
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
@@ -111,10 +112,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.7.6",
-      },
-      {
-        version: "0.8.4",
+        version: "0.8.2",
         settings: {
           metadata: {
             // Not including the metadata hash
